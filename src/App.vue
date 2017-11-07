@@ -39,4 +39,5 @@ export default {
 }
 .tab{width:100%;display: flex;height: 40px;}
 .tab_items{flex:1;text-align: center;line-height: 40px;}
+.tab_items>a{display: block;width:100%;height:100%;}
 </style>

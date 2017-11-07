@@ -41,3 +41,15 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+input{-webkit-user-select:auto;}
+li,ul{list-style:none;}
+a{text-decoration:none; color: #4c4c4c;}
+em{font-style:normal;}
+.show{display:block!important;}
+.hide{display:none!important;}
+.bold{font-weight:bold!important;}
+.fixed{position: fixed!important;}
+.bdn{border: none!important;}
+.cb{clear: both!important;}
+html,body{width:100%;max-width:768px;margin:0 auto;}
+html {-ms-touch-action: none;}
