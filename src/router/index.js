@@ -5,8 +5,9 @@ import evaluate from '../components/evaluate/evaluate'
 import seller from '../components/seller/seller'
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   mode:'history',
+  linkActiveClass: 'actives',
   routes: [
     {
         path:'/goods',
@@ -22,3 +23,5 @@ export default new Router({
     }
   ]
 })
+router.push('/goods');
+export default router

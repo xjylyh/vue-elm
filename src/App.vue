@@ -37,7 +37,8 @@ export default {
   width: 100%;
   overflow: hidden;
 }
-.tab{width:100%;display: flex;height: 40px;}
+.tab{width:100%;display: flex;height: 40px;border-bottom: 1px solid rgba(7,17,27,0.1);}
 .tab_items{flex:1;text-align: center;line-height: 40px;}
-.tab_items>a{display: block;width:100%;height:100%;}
+.tab_items>a{display: block;width:100%;height:100%;font-size: 14px;color:rgb(77,85,93);}
+a.actives{color:rgb(240,20,20);}
 </style>
