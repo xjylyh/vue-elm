@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-headers></v-headers>
+    <v-headers :seller="seller"></v-headers>
     <div class="tab">
       <div class="tab_items">
         <router-link to="/goods">
@@ -26,19 +26,41 @@
 import header from './components/header/header'
 require('../static/csspub/reset.css');
 export default {
+	data(){
+		return {
+			seller:{}
+		};
+	},
+	created(){
+		this.$http.get('/api/seller').then((response)=>{
+			response = response.body;
+			if(response.errno==0){
+				this.seller = response.data;
+				console.log(this.seller);
+			}
+		})
+	},
   components:{
     'v-headers':header
   }
 }
 </script>
 
-<style>
-#app {
-  width: 100%;
-  overflow: hidden;
-}
-.tab{width:100%;display: flex;height: 40px;border-bottom: 1px solid rgba(7,17,27,0.1);}
-.tab_items{flex:1;text-align: center;line-height: 40px;}
-.tab_items>a{display: block;width:100%;height:100%;font-size: 14px;color:rgb(77,85,93);}
-a.actives{color:rgb(240,20,20);}
+<style  lang="stylus" rel="stylesheet/stylus">
+@import "./common/stylus/mixin.styl"
+.tab
+	display: flex
+	width: 100%
+	height: 40px
+	line-height: 40px
+	border-1px(rgba(7, 17, 27, 0.1))
+	.tab_items
+		flex: 1
+		text-align: center
+		& > a
+			display: block
+			font-size: 14px
+			color: rgb(77, 85, 93)
+			&.actives
+				color: rgb(240, 20, 20)
 </style>
