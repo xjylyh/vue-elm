@@ -32,22 +32,38 @@
     <div class="background">
       <img :src="seller.avatar" alt="" width="100%" height="100%">
     </div>
-    <div class="detail" v-show="detailShow">
-      <div class="detail_wrapper clearfix">
-        <div class="detail_main">
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
+    <transition name="fade">
+      <div class="detail" v-show="detailShow">
+        <div class="detail_wrapper clearfix">
+          <div class="detail_main">
+            <h1 class="name">{{seller.name}}</h1>
+            <div class="star_wrapper">
+              <star :size="48" :score="seller.score"></star>
+            </div>
+            <titleLine :textString="'优惠信息'"></titleLine>
+            <ul v-if="seller.supports" class="supports">
+              <li class="supports_item" v-for="(item,index) in seller.supports">
+                <span class="icon" :class="classMap[seller.supports[index].type]"></span>
+                <span class="text">{{seller.supports[index].description}}</span>
+              </li>
+            </ul>
+            <titleLine :textString="'商家公告'"></titleLine>
+            <div class="bulletin">
+              <p class="content">{{seller.bulletin}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="detail_close">
+          <i class="icon-close" @click="closeDetail"></i>
         </div>
       </div>
-      <div class="detail_close">
-        <i class="icon-close"></i>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import star from '../../components/star/star';
+  import titleLine from '../../components/titleLine/titleLine'
   export default {
     props: {
       seller: {
@@ -62,10 +78,17 @@
     methods:{
       showDetail(){
         this.detailShow=true;
+      },
+      closeDetail(){
+        this.detailShow = false;
       }
     },
     created(){
       this.classMap = ['decrease','discount','special','invoice','guarantee'];
+    },
+    components:{
+      star,
+      titleLine
     }
   };
 </script>
@@ -78,6 +101,10 @@
     overflow: hidden
     color: #fff
     background: rgba(7, 17, 27, 0.5)
+    .fade-enter-active, .fade-leave-active
+      transition: all .5s
+    .fade-enter, .fade-leave-active
+      opacity: 0
     .content_wrapper
       position: relative
       padding: 24px 12px 18px 24px
@@ -105,7 +132,6 @@
             font-size: 16px
             line-height: 18px
             font-weight: bold
-
         .description
           margin-bottom: 10px
           line-height: 12px
@@ -185,6 +211,7 @@
       z-index:-1
       filter:blur(10px)
     .detail
+      backdrop-filter:blur
       position:fixed
       z-index: 100
       width: 100%
@@ -195,9 +222,56 @@
       left:0
       .detail_wrapper
         min-height :100%
+        width:100%
         .detail_main
           margin-top: 64px
           padding-bottom: 64px
+          .name
+            font-size: 16px
+            font-weight :700
+            line-height :16px
+            text-align :center
+          .star_wrapper
+            margin-top: 18px
+            padding:2px 0px
+            text-align:center
+          .supports
+            width: 80%
+            margin:0 auto
+            .supports_item
+              padding:0 12px
+              margin-bottom: 12px
+              font-size: 0
+              &:last-child
+                margin-botton:0
+              .icon
+                display :inline-block
+                width: 16px
+                height: 16px
+                margin-right: 6px
+                vertical-align :top
+                background-size: 16px
+                background-repeat:no-repeat
+                &.decrease
+                  bg-image('decrease_2')
+                &.discount
+                  bg-image('discount_2')
+                &.guarantee
+                  bg-image('guarantee_2')
+                &.invoice
+                  bg-image('invoice_2')
+                &.special
+                  bg-image('special_2')
+              .text
+                line-height :16px
+                font-size:12px
+          .bulletin
+            width:80%
+            margin:0 auto
+            .content
+              padding:0 12px
+              line-height :24px
+              font-size:12px
       .detail_close
         position:relative
         width: 32px
