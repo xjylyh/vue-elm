@@ -128,6 +128,20 @@ devMiddleware.waitUntilValid(() => {
   })
 })
 
+// var gracefulShutdown = function(){
+//   console.log('server is closeing ...');
+//   app.close(()=>{
+//     console.log('server is closed');
+//     process.exit();
+//   })
+//   setTimeout(()=>{
+//     console.error('server close is error .. 正在强制退出');
+//     process.exit();
+//   },10*1000)
+// }
+// process.on ('SIGTERM', gracefulShutdown);
+// process.on ('SIGINT', gracefulShutdown); 
+
 module.exports = {
   ready: readyPromise,
   close: () => {

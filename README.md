@@ -1,6 +1,6 @@
 # avueproject
 
-> A Vue.js project
+> A Vue.js project of elm
 
 ## Build Setup
 
