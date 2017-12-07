@@ -1,6 +1,6 @@
 <template>
 <div class="goods">
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="menuWrapper">
         <ul>
             <li v-for="items in goods" class="menu-item">
                 <span class="text">
@@ -9,7 +9,7 @@
             </li>
         </ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foodWrapper">
         <ul>
             <li v-for="items in goods" class="food-list">
                 <h1 class="title">{{items.name}}</h1>
@@ -22,8 +22,7 @@
                             <h2 class="name">{{foods.name}}</h2>
                             <p class="desc">{{foods.description}}</p>
                             <div class="extra">
-                                <span class="count">月售{{foods.sellCount}}份</span>
-                                <span>好评率{{foods.rating}}%</span>
+                                <span class="count">月售{{foods.sellCount}}份</span><span>好评率{{foods.rating}}%</span>
                             </div>
                             <div class="price">
                                 <span class="now">￥{{foods.price}}</span>
@@ -39,6 +38,8 @@
 </template>
 
 <script>
+import BScroll from "better-scroll"
+
 const ERR_OK = 0;
     export default {
         props:{
@@ -57,9 +58,17 @@ const ERR_OK = 0;
                 response = response.body;
                 if(response.errno === ERR_OK){
                     this.goods = response.data;
-                    console.log(this.goods);
+                    this.$nextTick(()=>{
+                        this._initScroll();
+                    })
                 }
             })
+        },
+        methods:{
+            _initScroll(){
+                this.menuScroll = new BScroll(this.$refs.menuWrapper,{});
+                this.foodsScroll = new BScroll(this.$refs.foodWrapper,{});
+            }
         }
     }
 </script>
@@ -141,9 +150,10 @@ const ERR_OK = 0;
                     font-size:10px
                     color:rgb(147,153,159)
                 .desc
+                    line-height :12px
                     margin-bottom:8px    
                 .extra
-                    &.count
+                    .count
                         margin-right:12px
                 .price
                     font-weight:700
@@ -153,7 +163,7 @@ const ERR_OK = 0;
                         font-size:14px
                         color:rgb(240,20,20)
                     .old
-                        text-text-decoration:line-through
+                        text-decoration:line-through
                         font-size:10px
                         color:rgb(147,153,159)    
 
