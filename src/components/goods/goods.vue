@@ -34,12 +34,13 @@
             </li>
         </ul>
     </div>
+    <shopcart></shopcart>
 </div>
 </template>
 
 <script>
 import BScroll from "better-scroll"
-
+import shopcart from "@/components/shopcart/shopcart.vue"
 const ERR_OK = 0;
     export default {
         props:{
@@ -111,6 +112,9 @@ const ERR_OK = 0;
                     this.listHeight.push(height);
                 }
             }
+        },
+        components:{
+            shopcart:shopcart
         }
     }
 </script>
