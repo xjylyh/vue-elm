@@ -2,7 +2,7 @@
   <div class="cartcontrol">
     <transition name="trans">
       <div class="cart-decrease" v-show="food.count>0" @click="redCart">
-        <span class="inner icon-remove_circle_outline">1</span>
+        <span class="inner icon-remove_circle_outline"></span>
       </div>
     </transition>
     
