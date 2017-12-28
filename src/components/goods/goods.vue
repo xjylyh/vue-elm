@@ -1,5 +1,5 @@
 <template>
-<div class="goods">
+<div class="goods" id="goods">
     <div class="menu-wrapper" ref="menuWrapper">
         <ul>
             <li v-for="(items,index) in goods" class="menu-item" :class="{'current':currentIndex===index}" @click="selectMenu(index,$event)">
@@ -29,7 +29,7 @@
                                 <span class="old" v-show="foods.oldPrice">￥{{foods.oldPrice}}</span>
                             </div>
                             <div class="cartcontrol-wrapper">
-                                <cartcontrol :food="foods"></cartcontrol>
+                                <cartcontrol @cartadd="_drop" :food="foods"></cartcontrol>
                             </div>
                         </div>
                     </li>
@@ -37,11 +37,12 @@
             </li>
         </ul>
     </div>
-    <shopcart :selectFoods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart ref="shopcart" :selectFoods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
 </div>
 </template>
 
 <script>
+import Vue from 'vue';
 import BScroll from "better-scroll"
 import shopcart from "@/components/shopcart/shopcart.vue"
 import cartcontrol from "@/components/cartcontrol/cartcontrol.vue"
@@ -96,6 +97,12 @@ const ERR_OK = 0;
             } 
         },
         methods:{
+            _drop(target){
+                //体验优化，异步执行下落动画
+                this.$nextTick(()=>{
+                    this.$refs.shopcart.drop(target);
+                })
+            },
             selectMenu(index,event){
                 if(!event._constructed){
                     return;

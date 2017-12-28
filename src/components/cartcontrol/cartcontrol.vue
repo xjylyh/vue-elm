@@ -2,7 +2,7 @@
   <div class="cartcontrol">
     <transition name="trans">
       <div class="cart-decrease" v-show="food.count>0" @click="redCart">
-        <span class="inner icon-remove_circle_outline"></span>
+        <span class="inner icon-remove_circle_outline">1</span>
       </div>
     </transition>
     
@@ -29,6 +29,7 @@ export default {
       }else{
         this.food.count++;
       }
+      this.$emit('cartadd',event.target);
     },
     redCart(event){
       if(!event._constructed){
@@ -47,10 +48,9 @@ export default {
   font-size:0
   .cart-decrease
     display:inline-block
+    opacity:1
+    transform:translate3d(0,0,0)
     transition:all .3s linear
-    &.fade-enter,&.fade-leave-to
-      opacity:1
-      transform:translate3d(0,0,0)
     .inner
       display:inline-block
       font-size:24px
@@ -60,10 +60,15 @@ export default {
       transform:rotate(0)
       transition:all .3s linear
     &.trans-enter, &.trans-enter-active
-        opacity: 0
-        transform: translate3d(24px, 0, 0)
-        &.inner
-          transform: rotate(180deg)
+      opacity: 0
+      transform: translate3d(24px, 0, 0)
+      .inner
+        transform: rotate(180deg)
+    &.trans-leave, &.trans-leave-active
+      opacity: 0
+      transform: translate3d(24px, 0, 0)
+      .inner
+        transform: rotate(180deg)
   .cart-count
     display:inline-block
     font-size:10px
