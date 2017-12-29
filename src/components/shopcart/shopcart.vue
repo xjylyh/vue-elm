@@ -18,7 +18,7 @@
               </div>
           </div>
           <div class="content-right">
-              <div class="pay" :class="payClass">
+              <div class="pay" :class="payClass" @click.stop.prevent="pay">
                   {{payDesc}}
               </div>
           </div>
@@ -39,7 +39,7 @@
       <div class="shopcart-list" v-show="listShow">
           <div class="list-header">
               <h1 class="title">购物车</h1>
-              <span class="empty">清空</span>
+              <span class="empty" @click="empty">清空</span>
           </div>
           <div class="list-content" ref="shopList">
               <ul>
@@ -55,6 +55,9 @@
               </ul>
           </div>
       </div>
+    </transition>
+    <transition name="mask">
+      <div class="list-mask" v-show="listShow" @click="scarlist"></div>
     </transition>
   </div>
 </template>
@@ -153,6 +156,21 @@ export default {
               ball.show = false;
               el.style.display = 'none';
           }
+      },
+      empty(){
+          this.selectFoods.forEach((food)=>{
+              food.count = 0;
+          })
+      },
+      scarlist(){
+          this.fold = true;
+      },
+      pay(){
+          if(this.totalPrice<this.minPrice){
+              return;
+          }else{
+              window.alert(`支付${this.totalPrice}元`);
+          }
       }
   },
   computed:{
@@ -223,6 +241,8 @@ export default {
     width:100%
     height:48px
     .content
+        position:relative
+        z-index:45
         display :flex
         background-color:#141d27
         height:100%
@@ -231,7 +251,6 @@ export default {
             flex:1
             .logo-wrapper
                 display :inline-block
-                position: relative
                 top:-10px
                 margin:0 12px
                 padding:6px
@@ -241,6 +260,7 @@ export default {
                 vertical-align :top
                 border-radius:50%
                 background-color:#141d27
+                z-index:40
                 position:relative
                 .logo
                     width:100%
@@ -323,7 +343,7 @@ export default {
         position:absolute
         top:0
         left:0
-        z-index:-1
+        z-index:35
         width:100%
         transition:all 0.5s
         transform:translate3d(0,-100%,0)
@@ -371,4 +391,18 @@ export default {
                     position:absolute
                     right:0
                     bottom:5px
+    .list-mask
+        position:fixed
+        top:-48px
+        left:0
+        width:100%
+        height:100%
+        z-index:33
+        backdrop-filter:blur(40px)
+        background:rgba(7,17,27,0.6)
+        transition:all .5s
+        &.mask-enter,&.mask-enter-active
+            opacity:0
+        &.mask-leave,&.mask-leave-active
+            opacity:0
 </style>
