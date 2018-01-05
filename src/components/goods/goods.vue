@@ -14,7 +14,7 @@
             <li v-for="items in goods" class="food-list food-list-hook">
                 <h1 class="title">{{items.name}}</h1>
                 <ul>
-                    <li v-for="foods in items.foods" class="food-item">
+                    <li @click="selectFood(foods,$event)" v-for="foods in items.foods" class="food-item">
                         <div class="icon">
                             <img width="57" height="57" :src="foods.icon" alt="">
                         </div>
@@ -38,6 +38,7 @@
         </ul>
     </div>
     <shopcart ref="shopcart" :selectFoods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <food :food="selectedFood" ref="food"></food>
 </div>
 </template>
 
@@ -46,6 +47,7 @@ import Vue from 'vue';
 import BScroll from "better-scroll"
 import shopcart from "@/components/shopcart/shopcart.vue"
 import cartcontrol from "@/components/cartcontrol/cartcontrol.vue"
+import food from "@/components/food/food.vue"
 const ERR_OK = 0;
     export default {
         props:{
@@ -57,7 +59,8 @@ const ERR_OK = 0;
             return {
                 goods:[],
                 listHeight:[],
-                scrollY:0
+                scrollY:0,
+                selectedFood:{}
             }
         },
         created(){
@@ -71,6 +74,12 @@ const ERR_OK = 0;
                         this._calculateHeight();
                     })
                 }
+            })
+        },
+        mounted(){
+            console.log(this);
+            this.$on('mabi',function(el){
+                console.log(el);
             })
         },
         computed: {
@@ -97,6 +106,14 @@ const ERR_OK = 0;
             } 
         },
         methods:{
+            selectFood(food,event){
+                if(!event._constructed){
+                    return;
+                }
+                console.log(food);
+                this.selectedFood = food;
+                this.$refs.food.show();
+            },
             _drop(target){
                 //体验优化，异步执行下落动画
                 this.$nextTick(()=>{
@@ -110,7 +127,6 @@ const ERR_OK = 0;
                 let foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
                 let ele = foodList[index];
                 this.foodsScroll.scrollToElement(ele);
-                console.log(index);
             },
             _initScroll(){
                 this.menuScroll = new BScroll(this.$refs.menuWrapper,{
@@ -136,7 +152,7 @@ const ERR_OK = 0;
             }
         },
         components:{
-            shopcart,cartcontrol
+            shopcart,cartcontrol,food
         }
     }
 </script>
