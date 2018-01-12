@@ -1,5 +1,12 @@
 <template>
-    <div class="evaluate">I am evaluate;</div>
+    <div class="ratings">
+        <div class="ratings-content">
+            <div class="overview">
+                <div class="overview-left"></div>
+                <div class="overview-right"></div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -8,6 +15,20 @@
     }
 </script>
 
-<style>
-.evaluate{width:100%;height:100px;text-align: center;line-height: 100px;}
+<style lang="stylus">
+.ratings
+    position:absolute
+    top:174px
+    bottom:0
+    width:100%
+    left:0
+    overflow:hidden
+    .overview
+        display:flex
+        padding:18px 0
+        .overview-left
+            flex:0 0 130px
+            width:130px
+        .overview-right
+            flex:1
 </style>

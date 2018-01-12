@@ -77,7 +77,6 @@ const ERR_OK = 0;
             })
         },
         mounted(){
-            console.log(this);
             this.$on('mabi',function(el){
                 console.log(el);
             })
